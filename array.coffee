@@ -1,4 +1,10 @@
 array =
+  add : (obj, arg) ->
+    if !array.contains obj, arg
+      obj.push(arg)
+    obj
+
+  # Syntax issue here
   cast : (obj, key = false) ->  
     o = []
     unless isNan obj.length
@@ -13,3 +19,6 @@ array =
       else
         utility.iterate obj, (i) -> o.push i
     o
+
+  clone : (obj) ->
+    utility.clone obj
