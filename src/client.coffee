@@ -171,8 +171,7 @@ client =
         allow = value  if /allow|access-control-allow-methods/i.test(header)
 
     switch true
-      when typeof items["Cache-Control"] isnt "undefined" and /no/.test(items["Cache-Control"]), typeof items["Pragma"] isnt "undefined" and /no/.test(items["Pragma"])
-    , typeof items["Cache-Control"] isnt "undefined" and /\d/.test(items["Cache-Control"])
+      when typeof items["Cache-Control"] isnt "undefined" and /no/.test(items["Cache-Control"]), typeof items["Pragma"] isnt "undefined" and /no/.test(items["Pragma"]), typeof items["Cache-Control"] isnt "undefined" and /\d/.test(items["Cache-Control"])
         expires = expires.setSeconds(expires.getSeconds() + parseInt(/\d{1,}/.exec(items["Cache-Control"])[0]))
       when typeof items["Expires"] isnt "undefined"
         expires = new Date(items["Expires"])
@@ -266,9 +265,7 @@ client =
       utility.define "abaaso.callback", {}, global  if typeof global.abaaso is "undefined"
       external = "abaaso"
     switch true
-      when typeof args is "undefined", args is null
-    , args instanceof Object and (args.callback is null or typeof args.callback is "undefined")
-    , typeof args is "string" and args.isEmpty()
+      when typeof args is "undefined", args is null, args instanceof Object and (args.callback is null or typeof args.callback is "undefined"), typeof args is "string" and args.isEmpty()
         callback = "callback"
       when args instanceof Object and typeof args.callback isnt "undefined"
         callback = args.callback
@@ -464,13 +461,7 @@ client =
 
         try
           switch xhr.status
-            when 200, 201
-          , 202
-          , 203
-          , 204
-          , 205
-          , 206
-          , 301
+            when 200, 201, 202, 203, 204, 205, 206, 301
               s = abaaso.state
               o = client.headers(xhr, uri, type)
               cors = client.cors(uri)
@@ -488,9 +479,7 @@ client =
               switch xhr.status
                 when 200, 201
                   uri.fire "after" + typed, r
-                when 202, 203
-              , 204
-              , 206
+                when 202, 203, 204, 206
                   uri.fire "after" + typed
                 when 205
                   uri.fire "reset"

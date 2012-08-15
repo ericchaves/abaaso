@@ -262,8 +262,7 @@ data =
         p = uri.allows("delete")
       obj.fire "beforeDataDelete", args
       switch true
-        when sync, @callback isnt null
-      , @uri is null
+        when sync, @callback isnt null, @uri is null
           obj.fire "syncDataDelete", args
         when r.test(p)
           uri.del (->
@@ -578,11 +577,7 @@ data =
       key = `undefined`  if key is null
       sync = (sync is true)
       switch true
-        when (typeof key is "undefined" or String(key).isEmpty()) and @uri is null, typeof data is "undefined"
-      , data instanceof Array
-      , data instanceof Number
-      , data instanceof String
-      , typeof data isnt "object"
+        when (typeof key is "undefined" or String(key).isEmpty()) and @uri is null, typeof data is "undefined", data instanceof Array, data instanceof Number, data instanceof String, typeof data isnt "object"
           throw Error(label.error.invalidArguments)
       record = (if typeof key is "undefined" then `undefined` else @get(key))
       obj = @parentNode
@@ -607,8 +602,7 @@ data =
         data: data
 
       switch true
-        when sync, @callback isnt null
-      , @uri is null
+        when sync, @callback isnt null, @uri is null
           obj.fire "syncDataSet", args
         when r.test(p)
           uri[method] ((arg) ->

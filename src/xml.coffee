@@ -52,8 +52,7 @@ xml =
         output.replace(/n/g, name).replace /v/, value
 
       switch true
-        when typeof arg is "boolean", typeof arg is "number"
-      , typeof arg is "string"
+        when typeof arg is "boolean", typeof arg is "number", typeof arg is "string"
           x += node("item", arg)
         when typeof arg is "object"
           utility.iterate arg, (v, k) ->

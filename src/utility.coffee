@@ -306,9 +306,7 @@ utility =
   genId: (obj) ->
     id = undefined
     switch true
-      when obj instanceof Array, obj instanceof String
-    , typeof obj is "string"
-    , typeof obj isnt "undefined" and typeof obj.id isnt "undefined" and obj.id isnt ""
+      when obj instanceof Array, obj instanceof String, typeof obj is "string", typeof obj isnt "undefined" and typeof obj.id isnt "undefined" and obj.id isnt ""
         return obj
     loop
       id = utility.domId(utility.guid(true))
