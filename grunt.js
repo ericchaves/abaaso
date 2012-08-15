@@ -13,30 +13,42 @@ module.exports = function (grunt) {
         	         " * @version <%= pkg.version %>\n" +
         	         " */"
 		},
+		coffee: {
+			compile: {
+				options: {
+					bare: true
+				},
+				files: {
+					"compiled/core.js": "src/core.coffee",
+					"compiled/bootstrap.js": "src/bootstrap.coffee",
+					"compiled/body.js": [
+						"src/array.coffee",
+						"src/cache.coffee",
+						"src/client.coffee",
+						"src/cookie.coffee",
+						"src/data.coffee",
+						"src/element.coffee",
+						"src/json.coffee",
+						"src/label.coffee",
+						"src/message.coffee",
+						"src/mouse.coffee",
+						"src/number.coffee",
+						"src/observer.coffee",
+						"src/route.coffee",
+						"src/string.coffee",
+						"src/utility.coffee",
+						"src/validate.coffee",
+						"src/xml.coffee",
+						"src/bootstrap.coffee",
+					]
+				}
+			}
+		},
 		concat: {
 			dist: {
 				src : [
 					"<banner>",
-					"src/intro.js",
-					"src/array.js",
-					"src/cache.js",
-					"src/client.js",
-					"src/cookie.js",
-					"src/data.js",
-					"src/element.js",
-					"src/json.js",
-					"src/label.js",
-					"src/message.js",
-					"src/mouse.js",
-					"src/number.js",
-					"src/observer.js",
-					"src/route.js",
-					"src/string.js",
-					"src/utility.js",
-					"src/validate.js",
-					"src/xml.js",
-					"src/bootstrap.js",
-					"src/outro.js"
+					"compiled/abaaso.js",
 				],
 				dest : "dist/abaaso.js"
 			}
@@ -74,12 +86,24 @@ module.exports = function (grunt) {
 		}
 	});
 
-	grunt.registerTask("default", "concat version min test");
+	grunt.loadNpmTasks('grunt-contrib');
+
+	grunt.registerTask("default", "coffee merge concat version min test");
+
+	grunt.registerTask("merge", function () {
+		var dest = "compiled/abaaso.js",
+		    core = grunt.file.read("compiled/core.js"),
+		    body = grunt.file.read("compiled/body.js"),
+		    boot = grunt.file.read("compiled/bootstrap.js");
+
+		console.log("Merging compiled files into compiled/abaaso.js");
+		grunt.file.write(dest, core.replace("!BODY;", body).replace("!BOOTSTRAP;", boot));
+	});
 
 	grunt.registerTask("version", function () {
 		var ver = grunt.config("pkg").version,
 		    fn  = "dist/abaaso.js",
-		    fp  = grunt.file.read("dist/abaaso.js");
+		    fp  = grunt.file.read(fn);
 
 		console.log("Setting version to: " + ver);
 		grunt.file.write(fn, fp.replace(/{{VERSION}}/g, ver));

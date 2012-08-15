@@ -18,9 +18,8 @@
     error = undefined
     external = undefined
     
-    #{{CORE}}
-    
-    #{{BOOTSTRAP}}
+    !BODY
+    !BOOTSTRAP
     
     # @constructor
     
